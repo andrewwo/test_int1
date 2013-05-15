@@ -1,0 +1,42 @@
+@(message: String)
+
+@main(message) { 
+<workbook class="main">
+	<h2>@message</h2>
+	<form action="/areas/index">
+		Select Parent Suite:
+			<select>
+				<option>Expenses Implementation</option>
+				<option>Financials Implementation</option>
+				<option>HCM Implementation</option>
+				<option>Payroll Implementation</option>
+				<option>etc.</option>
+			</select>
+		<p/>
+		<br/>
+		<p/>
+			Copy from Existing:
+			<select>
+				<option>Setup Data</option>
+				<option>Job Setup</option>
+				<option>Talent Management Setup</option>
+				<option>Organizations</option>
+				<option>Compensation</option>			
+				<option>etc.</option>			
+			</select>
+		<p/>
+		<p/>
+			Copy from Template:
+			<select>
+				<option>Template 1</option>
+				<option>etc.</option>
+			</select>
+		<p/>
+		<br/>
+		Name: <input type="text" name="area_name"/>
+	   <p>
+	     <input type="submit" value="Add" class="btn">
+	   </p>
+	</form>
+</workbook>
+}

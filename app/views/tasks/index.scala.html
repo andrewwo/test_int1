@@ -1,0 +1,18 @@
+@(message: String)
+
+@main(message) { 
+<workbook class="main">
+	<h2>@message</h2>
+		<ul id="accounts">
+			<li>Applicants</li>
+			<li>Hire Employees</li>
+			<li>Contract Contingent Workers</li>
+			<li>Update Employee Personal Info</li>
+			<li>Update Contingent Worker Personal Info</li>
+			<li>etc.</li>
+		</ul>
+		<br/>
+		<a href="/tasks/add" class="btn">Add New</a>
+		<a href="/sats" class="btn">Back to SATs</a>
+</workbook>
+}

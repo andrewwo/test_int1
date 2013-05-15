@@ -1,0 +1,81 @@
+@(title: String)(content: Html)
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>@title</title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript"></script>
+    </head>
+    <body>
+         <header>
+            <a href="@routes.Application.index" id="logo">
+            <img src="/assets/images/kainos.png" style="vertical-align:middle;"/>
+            <span>Workday</span> data manager</a>
+            <dl id="user">
+                <dd>
+                    <a href="@routes.Application.logout()">Logout</a>
+                </dd>
+            </dl>
+        </header>
+        <nav>
+            <h4 class="dashboard"><a href="/">Home</a></h4>
+            	<ul id="projects">
+	            	<li data-group="test">
+	    					<h4 class="groupName">My Admin</h4>
+						    <ul>
+								<li data-project="1">
+								    <a class="name" href="/clients/manage">Client Management</a>
+								</li>
+								<li data-project="1">
+								    <a class="name" href="/useraccounts">User Account Management</a>
+								</li>
+						    </ul>
+					</li>
+            	</ul>
+            	<ul id="projects">
+	            	<li data-group="test">
+	    					<h4 class="groupName">My Clients</h4>
+						    <ul>
+								<li data-project="1">
+								    <a class="name" href="/clients">King</a>
+								    <ul>
+								    	<li><a href="/sats">SATs</a></li>
+								    	<li><a href="/datamanagement">Data Management</a></li>
+								    </ul>
+								</li>
+								<li data-project="1">
+								    <a class="name" href="/clients">Travelex</a>
+								    <ul>
+								    	<li><a href="/sats">SATs</a></li>
+								    	<li><a href="/datamanagement">Data Management</a></li>
+								    </ul>
+								</li>
+								<li data-project="1">
+								    <a class="name" href="/clients">ANOther</a>
+								    <ul>
+								    	<li><a href="/sats">SATs</a></li>
+								    	<li><a href="/datamanagement">Data Management</a></li>
+								    </ul>
+								</li>
+						    </ul>
+					</li>
+            	</ul>
+            	<ul id="projects">
+	            	<li data-group="test">
+	    					<h4 class="groupName">My Jobs</h4>
+						    <ul>
+								<li data-project="1">
+								    <a class="name" href="/myjobs">List</a>
+								</li>
+						    </ul>
+					</li>
+            	</ul>            	
+        </nav>
+        <section id="main">
+        	@content
+        </section>        
+    </body>
+</html>

@@ -1,0 +1,30 @@
+@(message: String)
+
+@main(message) { 
+<workbook class="main">
+	<h2>@message</h2>
+	<form action="/suites/index">
+			Copy from Existing:
+			<select>
+				<option>Expenses Implementation</option>
+				<option>Financials Implementation</option>
+				<option>HCM Implementation</option>
+				<option>Payroll Implementation</option>
+				<option>etc.</option>
+			</select>
+		<p/>
+		<p/>
+			Copy from Template:
+			<select>
+				<option>Template 1</option>
+				<option>etc.</option>
+			</select>
+		<p/>
+		<br/>
+		Name: <input type="text" name="suite_name"/>
+	   <p>
+	     <input type="submit" value="Add" class="btn">
+	   </p>
+	</form>
+</workbook>
+}

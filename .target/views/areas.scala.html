@@ -1,0 +1,27 @@
+@(areas: List[WD_Area], areaForm: Form[String])
+
+@import helper._
+
+@main("Workday Data Uploader - Areas") {
+<areas class="main">
+    <h2>@areas.size area(s) are configured</h2>
+    
+    <ul id="areas">
+        @areas.map { area =>
+            <li>
+                @area.label                
+                @form(routes.Area.deleteArea(area.id)) {
+                    <input type="submit" value="Delete" class="btn">
+                }
+            </li>
+        }
+    </ul>
+    
+    <h2>Add a new Area</h2>
+    
+    @form(routes.Area.newArea) {
+        @inputText(areaForm("label")) 
+        <input type="submit" value="Create">
+ 	}   
+</areas>
+}

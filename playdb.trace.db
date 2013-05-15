@@ -1,0 +1,3 @@
+05-14 23:57:35 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Table "APPLICANT" not found; SQL statement:
+insert into applicant (employee_id,entered_date) values (?,?) [42102-168]

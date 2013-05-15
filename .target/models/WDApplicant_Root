@@ -1,0 +1,13 @@
+package models
+
+import anorm._
+import anorm.SqlParser._
+import java.util.Date
+
+//User
+case class WDApplicant_Root(
+	id: Pk[Long],
+	entered_date: Date
+)
+
+object WD_User extends Magic[WD_User]

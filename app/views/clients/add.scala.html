@@ -1,0 +1,13 @@
+@(message: String)
+
+@main(message) { 
+<workbook class="main">
+	<h2>@message</h2>
+	<form action="/accounts">
+		Name: <input type="text" name="account_name"/>
+	   <p>
+	     <input type="submit" value="Add" class="btn">
+	   </p>
+	</form>
+</workbook>
+}
