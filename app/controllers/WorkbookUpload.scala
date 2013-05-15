@@ -17,7 +17,8 @@ import org.apache.poi.ss.usermodel.DateUtil
 import scala.collection.JavaConversions._
 import org.apache.poi.ss.usermodel.Workbook
 import models._
-
+//removes feature warning on != operator here ***  
+import scala.language.postfixOps
 
 object WorkbookUpload extends Controller with Secured {
 	//I have hard coded here the file path
@@ -77,6 +78,7 @@ object WorkbookUpload extends Controller with Secured {
 	
 	def importData(filepath: String) = Action { implicit request =>
 		val bis = new BufferedInputStream(new FileInputStream(filepath))
+		//*** see command at import section
 		val bArray = Stream.continually(bis.read).takeWhile(-1 !=).map(_.toByte).toArray
 
 		val wb = WorkbookFactory.create(new ByteArrayInputStream(bArray))

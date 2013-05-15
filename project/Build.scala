@@ -4,7 +4,7 @@ import play.Project._
 
 object ApplicationBuild extends Build {
 
-  val appName         = "Workday Data Manager"
+  val appName         = "WorkdayDataManager"
   val appVersion      = "1.0-SNAPSHOT"
 
   val appDependencies = Seq(
@@ -20,7 +20,8 @@ object ApplicationBuild extends Build {
 
 
   val main = play.Project(appName, appVersion, appDependencies).settings(
-    // Add your own project settings here      
+    // Add your own project settings here
+    scalacOptions += "-feature"
   )
 
 }
