@@ -9,10 +9,10 @@ import models._
 import views._
 
 object SAT extends Controller {
-    def index = Action { 
+    def index = Action { implicit request =>
     	Ok(views.html.sat("Suite, Area or Task maintenance"))    
   }
-    def addsuite = Action { 
+    def addsuite = Action { implicit request =>
     	Ok(views.html.suites.index("Suites"))    
   }
 

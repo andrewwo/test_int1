@@ -3,47 +3,69 @@
 # ~~~~
 
 # Home page
-GET     /                           	controllers.Application.index
+#GET     /                           	controllers.ClientController.index
+
+GET     /                           		controllers.Application.index
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file              	 	controllers.Assets.at(path="/public", file)
+GET     /assets/*file              	 		controllers.Assets.at(path="/public", file)
 
 # Authentication
 GET     /login                              controllers.Application.login
-POST    /login                              controllers.Application.authenticate
+POST    /login                              controllers.Application.postLogin
 GET     /logout                             controllers.Application.logout
 
-GET		/admin						controllers.Application.admin
+GET		/admin								controllers.Application.admin
 
-GET		/myjobs						controllers.Application.myJobs
+GET		/myjobs								controllers.Application.myJobs
 
 
 #This get request to load upload form
-GET  /workbook        			controllers.WorkbookUpload.index
-GET  /workbook/list        			controllers.WorkbookUpload.list
-GET  /workbook/uploadForm			controllers.WorkbookUpload.uploadForm
+GET  	/datamanagement        				controllers.DataManagement.index
+GET  	/datamanagement/workbooklist        controllers.DataManagement.listWorkbooks
+GET  	/datamanagement/workbookUploadForm	controllers.DataManagement.uploadWorkbookForm
+GET 	/datamanagement/iloadlist 			controllers.DataManagement.listiLoads
+GET 	/datamanagement/iLoadUploadForm		controllers.DataManagement.uploadiLoadForm
 
 #This post request for send workbook file to back end
-POST /workbook/upload 			controllers.WorkbookUpload.upload
+POST 	/datamanagement/uploadWorkbook 		controllers.DataManagement.uploadWorkbook
 #extracts data from uploaded workbook
-POST /workbook/importData			controllers.WorkbookUpload.importData(filepath: String)
+POST 	/datamanagement/importWorkbookData	controllers.DataManagement.importWorkbookData(filepath: String)
 
-GET /workbook/generateDGWB				controllers.WorkbookUpload.generateDGWB
-GET /workbook/datavalidate 	controllers.WorkbookUpload.dataValidation
-GET /workbook/generateiloads 	controllers.WorkbookUpload.generate_iLoads
+#This post request for send workbook file to back end
+POST 	/datamanagement/uploadiLoad 		controllers.DataManagement.uploadiLoad
+#extracts data from uploaded workbook
+POST 	/datamanagement/importiLoadData		controllers.DataManagement.importiLoadData(filepath: String)
 
-GET /datamanagement				controllers.DataManagement.index
+GET 	/datamanagement/generateDGWB		controllers.DataManagement.generateDGWB
+GET 	/datamanagement/datavalidate 		controllers.DataManagement.dataValidation
+GET 	/datamanagement/generateiloads 		controllers.DataManagement.generate_iLoads
+POST 	/datamanagement/viewTableData		controllers.DataManagement.viewTableData(tablename: String)
+POST 	/datamanagement/deleteImportedWorkbookData	controllers.DataManagement.deleteImportedWorkbookData(filename: String)
+GET 	/datamanagement/deleteImportedWorkbook		controllers.DataManagement.deleteImportedWorkbook(filename: String)
 
-GET  /clients        					controllers.Client.index
-GET  /clients/add        					controllers.Client.add
-GET  /clients/manage        					controllers.Client.manage
+GET  	/clients        					controllers.ClientController.index
+GET  	/clients/add        				controllers.ClientController.add
+GET  	/clients/manage        				controllers.ClientController.manage
 
-GET  /sats        					controllers.SAT.index
-GET  /suites/index        					controllers.Suite.index
-GET  /suites/add        					controllers.Suite.add
-GET  /areas/index        					controllers.Area.index
-GET  /areas/add        					controllers.Area.add
-GET  /tasks/index        					controllers.Task.index
-GET  /tasks/add        					controllers.Task.add
+GET  	/sats        						controllers.SAT.index
+GET  	/suites/index        				controllers.Suite.index
+GET  	/suites/add        					controllers.Suite.add
+GET  	/areas/index        				controllers.Area.index
+GET  	/areas/add        					controllers.Area.add
+GET 	/tasks/index        				controllers.Task.index
+GET 	/tasks/add        					controllers.Task.add
 
-GET /useraccounts			controllers.Application.userAccounts
+GET		/useraccounts						controllers.UserController.list
+GET 	/useraccounts/makeadmin/:username	controllers.UserController.makeAdmin(username:String)
+GET 	/useraccounts/delete/:username		controllers.UserController.delete(username:String)
+
+GET     /useraccounts/add					controllers.Application.register
+POST    /useraccounts/add					controllers.Application.postRegistration
+
+GET     /useraccounts/edit					controllers.Application.userEdit
+POST    /useraccounts/edit					controllers.Application.postUserEdit
+
+# lost password
+GET     /account/lost						controllers.Application.passwordLost
+POST    /account/lost						controllers.Application.postPasswordLost

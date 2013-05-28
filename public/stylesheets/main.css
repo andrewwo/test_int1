@@ -99,7 +99,7 @@ hr {
 body {
   background: #c7d1d8;
   color: #2a3a48;
-  font: 13px "Lucida Grande", "Helvetica Neue", sans-serif;
+  font: 11pt "Lucida Grande", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialised;
   -webkit-user-select: none;
 }
@@ -947,4 +947,43 @@ color: #ffffff;
 
 #tasks_list > li a {
 color: #5daad5;
+}
+
+.table-clients > thead tr th {
+	font-weight: bold;
+	padding:5px;
+}
+.table-clients > tbody tr td {
+	padding:5px;
+}
+
+.table-workbooks > thead tr th {
+	font-weight: bold;
+	padding: 3px;
+	background: #ddd;
+}
+.table-workbooks > tbody tr td {
+	padding: 3px;
+}
+
+a.deleteButton {
+  top: 0px;
+  right: 0;
+  border: none;
+  padding: 0;
+  width: 18px;
+  height: 20px;
+  overflow: hidden;
+  text-indent: -99em;
+  background: url(/assets/images/icons/delete.png) 0 1px no-repeat;
+  -moz-transition: opacity 300ms ease-in-out;
+  -webkit-transition: opacity 300ms ease-in-out;
+  -o-transition: opacity 300ms ease-in-out;
+  transition: opacity 300ms ease-in-out;
+  -webkit-transition-delay: 100ms;
+  z-index: 7;
+  cursor: pointer;
+}
+a.deleteButton:hover {
+  background: url(/assets/images/icons/delete.png) 0 -19px no-repeat;
 }

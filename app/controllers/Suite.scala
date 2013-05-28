@@ -9,10 +9,10 @@ import models._
 import views._
 
 object Suite extends Controller {
-    def index = Action { 
+    def index = Action { implicit request =>
     	Ok(views.html.suites.index("Suites List"))    
   }
-    def add = Action { 
+    def add = Action { implicit request =>
     	Ok(views.html.suites.add("New Suite"))    
   }
 }

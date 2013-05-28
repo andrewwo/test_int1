@@ -9,10 +9,10 @@ import models._
 import views._
 
 object Area extends Controller {
-    def index = Action { 
+    def index = Action { implicit request =>
     	Ok(views.html.areas.index("Areas List"))    
   }
-    def add = Action { 
+    def add = Action { implicit request =>
     	Ok(views.html.areas.add("New Area"))    
   }
 }

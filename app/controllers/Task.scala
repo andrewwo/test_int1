@@ -9,10 +9,10 @@ import models._
 import views._
 
 object Task extends Controller {
-    def index = Action { 
+    def index = Action { implicit request =>
     	Ok(views.html.tasks.index("Tasks List"))    
   }
-    def add = Action { 
+    def add = Action { implicit request =>
     	Ok(views.html.tasks.add("New Task"))    
   }
 }

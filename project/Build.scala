@@ -11,11 +11,13 @@ object ApplicationBuild extends Build {
     // Add your project dependencies here,
     jdbc,
     anorm,
-    "postgresql" % "postgresql" % "8.4-702.jdbc4",
-	"org.apache.poi" % "poi" % "3.8",
-	"org.apache.poi" % "poi-scratchpad" % "3.8",
-	"org.apache.poi" % "poi-ooxml" % "3.8",
-	"com.typesafe.slick" %% "slick" % "1.0.0"
+    "postgresql" % "postgresql" % "9.1-901.jdbc4",
+	"org.apache.poi" % "poi" % "3.9",
+	"org.apache.poi" % "poi-scratchpad" % "3.9",
+	"org.apache.poi" % "poi-ooxml" % "3.9",
+	"com.typesafe.slick" %% "slick" % "1.0.0",
+	"com.typesafe" %% "play-plugins-mailer" % "2.1.0",
+	"org.mindrot" % "jbcrypt" % "0.3m"
   )
 
 

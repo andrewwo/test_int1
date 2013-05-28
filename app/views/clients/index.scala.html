@@ -1,7 +1,27 @@
-@(message: String)
+@(clients:Seq[Client],message: String)(implicit request: RequestHeader)
 
 @main(message) { 
 <workbook class="main">
 	<h2>@message</h2>
+	<table class="table table-clients">
+	    <thead>
+	    <tr>
+	        <th>Name</th>
+	        <th>Notes</th>
+	        <th></th>
+	    </tr>
+	    </thead>
+	    <tbody>
+
+	    @clients.map{ client =>
+	    <tr>
+	        <td>@client.name</td>
+	        <td>@client.notes</td>
+	        <td><a href="/clients/manage" class="">Manage</a>
+	    </tr>
+	    }
+	    </tbody>
+	</table>
+	<a href="/clients/add" class="btn btn-success">New</a>	
 </workbook>
 }

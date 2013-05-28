@@ -1,14 +1,16 @@
-@(message: String)
+@(message: String)(implicit request: RequestHeader)
 
 @main(message) { 
 <workbook class="main">
 	<h2>@message</h2>
 	<ul id="tasks_list">
-		<li><a href="/workbook/generateDGWB">Create New Data Gathering Workbook Template</a></li>
-		<li><a href="/workbook/uploadForm">Upload completed Data Gathering Workbook</a></li>
-		<li><a href="/workbook/list">Uploaded Workbooks List</a></li>
-		<li><a href="/workbook/datavalidate">Data Validation</a></li>
-		<li><a href="/workbook/generateiloads">Generate iLoad(s)</a></li>
+		<li><a href="/datamanagement/generateDGWB">Create New Data Gathering Workbook Template</a></li>
+		<li><a href="/datamanagement/workbookUploadForm">Upload completed Data Gathering Workbook</a></li>
+		<li><a href="/datamanagement/workbooklist">Uploaded Workbooks List</a></li>
+		<li><a href="/datamanagement/datavalidate">Data Validation</a></li>
+		<li><a href="/datamanagement/generateiloads">Generate iLoad(s)</a></li>
+		<li><a href="/datamanagement/iloadlist">List of Uploaded iLoads</a></li>
+		<li><a href="/datamanagement/iLoadUploadForm">Upload an iLoad template</a></li>
 	</ul>
 </workbook>
 }
