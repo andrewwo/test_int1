@@ -1,0 +1,27 @@
+@(message: String)(implicit request: RequestHeader, 
+flash:Flash, l: Lang=Lang("en"))
+
+@import play.api.i18n._
+@import views.html.helper._
+
+@main(message) { 
+<workbook class="main">
+
+ <!--print messages-->
+ @if(flash.data.contains("message")){ 
+   <div class="alert alert-success">@flash.get("message")</div>
+ } 
+ <!--print error messages--> 
+ @if(flash.data.contains("errormessage")){  
+   <div class="alert alert-error">@flash.get("errormessage")</div>
+ }
+ <!--create Play form-->
+ @form(action = controllers.routes.DataManagement.uploadWorkbook, 'enctype -> 
+       "multipart/form-data") {
+   <input class="width:200px;" type="file" name="fileupload" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+   <p>
+     <input type="submit" value="Upload Workbook" class="btn">
+   </p>
+ }
+ </workbook>
+}

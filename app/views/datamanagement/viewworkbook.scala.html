@@ -1,0 +1,25 @@
+@(message: String, results:java.util.ArrayList[Array[String]], headers: List[String])(implicit request: RequestHeader)
+
+@import helper._
+
+@main(message) { 
+<workbook class="main">
+	<h2>@message</h2>
+	    <table class="table-workbooks">
+	    <thead>
+	    <tr>
+        @headers.map { header =>
+	    	<th>@header</th>
+	    }
+	    </tr>
+	    </thead>
+        @for(line <- results) {
+            <tr>
+	        @for(l <- line) {
+	        	<td>@l</td>
+	        }
+            </tr>
+        }
+    </table>
+</workbook>
+}
