@@ -60,7 +60,7 @@ object DataManagement extends Controller with Authentication with DBAccess{
 	
 	/**
 	 * This function removes the table of imported data and sets the table name for the corresponding workbook
-	 * row to ''
+	 * row to blank string
 	 */
 	def deleteImportedWorkbookData(filename: String) = Action {  implicit request => 
       database withSession {
@@ -73,8 +73,10 @@ object DataManagement extends Controller with Authentication with DBAccess{
           Logger.debug(dropTable.toString)
 
            //update workbook entry and remove the table name from its row
+          //create modified workbook object
            val updateWB = DBWorkbook(dgwb.filename,dgwb.data,dgwb.file_size,dgwb.wb_type,"",dgwb.uploaded_by,dgwb.uploaded_date)
-		   DBWorkbookDAO.save(updateWB)	
+		   //save it
+           DBWorkbookDAO.save(updateWB)	
           Redirect("/datamanagement/workbooklist")
          }.getOrElse(Redirect("/datamanagement/workbooklist/error"))
       }
@@ -107,22 +109,24 @@ object DataManagement extends Controller with Authentication with DBAccess{
 	def viewTableData(tablename:String) = Action {  implicit request => 
       database withSession {
         implicit session: Session =>
-          	//read column names
+          	//read the column names from this table - it's dynamcially created so it doesn't map to a case class
+          //liuke the users table for example
           	val columnNames = StaticQuery.queryNA[(String)]("select column_name from INFORMATION_SCHEMA.COLUMNS where table_name = '" + tablename + "'").list
-          	//val columnTypes = StaticQuery.queryNA[(String)]("select udt_name from INFORMATION_SCHEMA.COLUMNS where table_name = '" + tablename + "'").list
 
           	val selectAll = new StringBuilder
           	selectAll ++= "SELECT * FROM " + tablename + "\n"
           	selectAll ++= "OFFSET 0\n"
           	selectAll ++= "FETCH FIRST 25 ROWS ONlY" 
           	
-          //get first 20 rows as per statement above
+          //get first 25 rows as per statement above from the passed in table name
       	  val statement = session.conn.createStatement()
 		  val rs = statement.executeQuery(selectAll.toString)
 		  
+		  //build a new array list of an array of strings
 		  var results:ArrayList[Array[String]] = new ArrayList
 	      var count = 0
 		  
+	      //parse the result set into this list
 		  while(rs.hasNext) {
 		    val rowData = new Array[String](columnNames.length)
 		    for(s <- columnNames.zipWithIndex) {
@@ -132,12 +136,13 @@ object DataManagement extends Controller with Authentication with DBAccess{
 		    results.add(rowData)
 		  }
           	
-      		DB.withConnection { implicit c=>
-	          	val selectPage = SQL(selectAll.toString).resultSet
-	          	
-	          	Logger.debug(selectPage.toString())
-	          	Ok(views.html.datamanagement.viewworkbook("Workbook Data",results,columnNames))
-          	}
+		DB.withConnection { implicit c=>
+		  	val selectPage = SQL(selectAll.toString).resultSet
+		  	
+		  	Logger.debug(selectPage.toString())
+		  	//return the view table view with the data and column names for display
+		  	Ok(views.html.datamanagement.viewworkbook("Workbook Data",results,columnNames))
+		}
       }
 	}
 	
@@ -150,6 +155,7 @@ object DataManagement extends Controller with Authentication with DBAccess{
       }
 	}
 
+	//as above
 	def listiLoads = Action {  implicit request => 
       database withSession {
         implicit session: Session =>
@@ -159,10 +165,12 @@ object DataManagement extends Controller with Authentication with DBAccess{
       }
 
 	
+	//show upload wb page
 	def uploadWorkbookForm = Action {  implicit request =>
 		Ok(views.html.datamanagement.uploadworkbook("Workbook upload"))
 	}
 
+	//show upload iload page
 	def uploadiLoadForm = Action {  implicit request =>
 		Ok(views.html.datamanagement.uploadiload("iLoad upload"))
 	}
@@ -263,7 +271,7 @@ object DataManagement extends Controller with Authentication with DBAccess{
 			val bais = new ByteArrayInputStream(bArray)
 			val wb = WorkbookFactory.create(bais)
 			
-			//get the sixth sheet - the one where the data starts
+			//get the seventh sheet - the one where the data starts
 			//TODO - make this automatic on by user input
 			val sheet = wb.getSheetAt(7)
 			//val sheet = wb.getSheet("Applicant-Personal&Contact")
@@ -387,6 +395,10 @@ object DataManagement extends Controller with Authentication with DBAccess{
 		def next() = resultSet
 	}
 
+	/**
+	 * Helper function to set a cell value 
+	 */
+	
 	def safeSetCellValue(row: org.apache.poi.ss.usermodel.Row, index: Int, value: String) = {
 		//get the cell
 	     var cc = row.getCell(index)
@@ -398,6 +410,10 @@ object DataManagement extends Controller with Authentication with DBAccess{
 		 cc.setCellValue(value)	  
 	}
 	
+	/**
+	 * Start of the main functionality of this project
+	 * Loops through the data we have saved from DGWB into our table 
+	 */
 	def populateiLoadWithTableData(sheet: Sheet, tableName: String):Sheet = {
       database withSession {
         implicit session: Session =>
@@ -406,6 +422,7 @@ object DataManagement extends Controller with Authentication with DBAccess{
       	  val columnNames = StaticQuery.queryNA[(String)]("select column_name from INFORMATION_SCHEMA.COLUMNS where table_name = '" + tableName + "'").list
       	  Logger.debug("Column Names: " + columnNames.toString)
       	  
+      	  //fetch the data from the table
       	  val statement = session.conn.createStatement()
 
       	  val selectDataQuery = new StringBuilder
@@ -420,17 +437,20 @@ object DataManagement extends Controller with Authentication with DBAccess{
 		  // a counter for row number 
 		  var count = 0
 		  
-		  //loop through the result set
+		  //loop through the result set of this data
 		  while (rs.hasNext) {
 			 //get the row in the iLoad
-		     var row = sheet.getRow(startRow+count)
+		    //check there is row data in there 
+		    var row = sheet.getRow(startRow+count)
 		     if(row==null) {
+		       //if not create a row
 		       row = sheet.createRow(startRow+count)
 		     }
 
-		     //set row number
+		     //set the iLoad row number in column index 1
 		     safeSetCellValue(row, 1, (count+1).toString)
-		     //set employee id
+
+		     //set employee id in column index 4
 		     safeSetCellValue(row, 4, rs.getString("employee_id"))
 		     
 		     count += 1
@@ -440,25 +460,25 @@ object DataManagement extends Controller with Authentication with DBAccess{
       	}
       }
 	
-	def streamFromResultSet[T](rs:ResultSet)(func: ResultSet => T):Stream[T] = {
-	   if (rs.next())
-	      func(rs) #:: streamFromResultSet(rs)(func)
-	   else
-	      rs.close()
-	      Stream.empty
-	}
-	
-	def fillMap(statement:java.sql.Statement,selectStatement: String):Map[String,Set[String]] = {
-	   case class CategoryValue(category:String, property:String)
-	
-	   val resultSet = statement.executeQuery(selectStatement)
-	
-	   val queryResult = streamFromResultSet(resultSet){rs =>
-	      CategoryValue(rs.getString(1),rs.getString(2))
-	   }
-	
-	   queryResult.groupBy(_.category).mapValues(_.map(_.property).toSet)
-	}
+//	def streamFromResultSet[T](rs:ResultSet)(func: ResultSet => T):Stream[T] = {
+//	   if (rs.next())
+//	      func(rs) #:: streamFromResultSet(rs)(func)
+//	   else
+//	      rs.close()
+//	      Stream.empty
+//	}
+//	
+//	def fillMap(statement:java.sql.Statement,selectStatement: String):Map[String,Set[String]] = {
+//	   case class CategoryValue(category:String, property:String)
+//	
+//	   val resultSet = statement.executeQuery(selectStatement)
+//	
+//	   val queryResult = streamFromResultSet(resultSet){rs =>
+//	      CategoryValue(rs.getString(1),rs.getString(2))
+//	   }
+//	
+//	   queryResult.groupBy(_.category).mapValues(_.map(_.property).toSet)
+//	}
 	
 	/**
 	 * Tests whether a workbook is password protected by trying to create a POIFSFileSystem

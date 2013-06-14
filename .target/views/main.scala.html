@@ -1,4 +1,4 @@
-@(title: String)(content: Html)
+@(title: String, javascript: Html = Html(""))(content: Html)(implicit request: RequestHeader)
 
 <!DOCTYPE html>
 
@@ -11,13 +11,16 @@
     </head>
     <body>
          <header>
-            <a href="@routes.Application.index" id="logo">
+            <a href="/" id="logo">
             <img src="/assets/images/kainos.png" style="vertical-align:middle;"/>
             <span>Workday</span> data manager</a>
             <dl id="user">
+                @Application.getCurrentUser.map{ user =>
+                <dt>@user.username <span>(@user.email)</span></dt>
                 <dd>
                     <a href="@routes.Application.logout()">Logout</a>
                 </dd>
+                }
             </dl>
         </header>
         <nav>
@@ -27,7 +30,7 @@
 	    					<h4 class="groupName">My Admin</h4>
 						    <ul>
 								<li data-project="1">
-								    <a class="name" href="/clients/manage">Client Management</a>
+								    <a class="name" href="/clients">Client Management</a>
 								</li>
 								<li data-project="1">
 								    <a class="name" href="/useraccounts">User Account Management</a>
