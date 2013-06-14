@@ -1,0 +1,47 @@
+@(message: String, files: Seq[DBWorkbook])(implicit request: RequestHeader)
+
+@import helper._
+
+@main(message) { 
+<workbook class="main">
+	<h2>@message</h2>
+	    <table class="table-workbooks">
+	    <thead>
+	    <tr>
+	    	<th>&nbsp;</th><th>Filename</th><th>Size</th><th>Date</th><th>User</th><th colspan="2">Imported Data</th><th width="20">&nbsp;</th>
+	    </tr>
+	    </thead>
+        @files.map { file =>
+            <tr>
+            	<td><img src="/assets/images/icons/excel.png"/></td>
+                <td>@file.filename</td> 
+                <td>@{"%,d".format(file.file_size)}</td>
+                <td>@file.uploaded_date</td>
+                <td>@file.uploaded_by</td> 
+                @if(file.import_table.equals("")) {
+	                <td>
+	                @form(routes.DataManagement.importWorkbookData(file.filename))    {
+	                    <input type="submit" value="Import" class="btn">
+	                }
+	                </td>
+	                <td></td>
+	            } else {
+	            	<td>
+	                @form(routes.DataManagement.viewTableData(file.import_table))    {
+	                    <input type="submit" value="View" class="btn">
+	                }
+	                </td>
+	                <td>
+	                @form(routes.DataManagement.deleteImportedWorkbookData(file.filename))    {
+	                    <input type="submit" value="Delete" class="btn">
+	                }
+	                </td>
+                }            
+	                <td>
+		                <a alt="Delete" class="deleteButton" href="@routes.DataManagement.deleteImportedWorkbook(file.filename)">&nbsp;&nbsp;&nbsp;&nbsp;</a>
+	                </td>
+            </tr>
+        }
+    </table>
+</workbook>
+}

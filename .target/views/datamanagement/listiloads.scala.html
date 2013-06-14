@@ -1,0 +1,38 @@
+@(message: String, files: Seq[DBWorkbook])(implicit request: RequestHeader)
+
+@import helper._
+
+@main(message) { 
+<workbook class="main">
+	<h2>@message</h2>
+	    <table class="table-workbooks">
+	    <thead>
+	    <tr>
+	    	<th>&nbsp;</th><th>Filename</th><th>Size</th><th>Date</th><th>User</th><th>&nbsp;</th>
+	    </tr>
+	    </thead>
+        @files.map { file =>
+            <tr>
+            	<td><img src="/assets/images/icons/excel.png"/></td>
+                <td>@file.filename</td> 
+                <td>@{"%,d".format(file.file_size)}</td>
+                <td>@file.uploaded_date</td>
+                <td>@file.uploaded_by</td> 
+                @if(file.import_table.equals("")) {
+	                <td>
+	                @form(routes.DataManagement.importiLoadData(file.filename))    {
+	                    <input type="submit" value="Populate" class="btn">
+	                }
+	                </td>
+	            } else {
+	            	<td>
+	                @form(routes.DataManagement.viewTableData(file.import_table))    {
+	                    <input type="submit" value="View" class="btn">
+	                }
+	                </td>            
+                }            
+            </tr>
+        }
+        </table>
+</workbook>
+}
