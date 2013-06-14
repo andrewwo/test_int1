@@ -358,6 +358,7 @@ object DataManagement extends Controller with Authentication with DBAccess{
 				+ (sheet.getLastRowNum()-sheet.getFirstRowNum() - 3) + " data rows.</h2>"
 			text ++= "<p/>"						
 			
+			// fixed table name for now
 			val tableName = "dgwb_test_2_xlsx_applicant___address"
 			
 			val populatedSheet = populateiLoadWithTableData(sheet,tableName)
@@ -378,7 +379,7 @@ object DataManagement extends Controller with Authentication with DBAccess{
       }
      }
 
-	/*
+	/**
 	 * Treat a java.sql.ResultSet as an Iterator, allowing operations like filter,
 	 * map, etc.
 	 *
